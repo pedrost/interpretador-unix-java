@@ -6,6 +6,7 @@ import commands.Echo;
 import commands.Cd;
 import commands.NotFound;
 import commands.Ls;
+import commands.Clear;
 
 import core.Dir;
 
@@ -15,6 +16,7 @@ public class Main {
     public static Dir dir = new Dir(System.getenv("PWD"));
 
     public static Cd cdCommand = new Cd(dir);
+    private static Clear clearCommand = new Clear();
     public static Echo echoCommand = new Echo();
     public static Ls lsCommand = new Ls(dir);
     public static NotFound notFoundCommand = new NotFound();
@@ -22,6 +24,7 @@ public class Main {
     public enum AvailableCommands {
         cat(echoCommand),
         cd(cdCommand),
+        clear(clearCommand),
         echo(echoCommand),
         ls(lsCommand),
         not_found(notFoundCommand);
