@@ -1,15 +1,16 @@
+package commands;
 import java.io.*;
 
-public class Cd {
-	private CurrentDir dir;
-	private String destination;
-	
-	public Cd(String destination, CurrentDir dir) {
-		super(null, null);
-		this.dir = dir;
-		this.destination = destination;
+import core.Dir;
+
+public class Cd implements Command {
+    private Dir dir;
+
+	public Cd(Dir dir) {
+        this.dir = dir;
 	}
-	public Object transform(Object o) {
+
+	public void run(String destination) {
 	
 		if (destination.equals("..")) {		
 			File file = new File(dir.getDir());
@@ -26,7 +27,5 @@ public class Cd {
 			dir.setDir(System.getProperty("file.separator") + destination, true);
 		}
 	
-		this.done = true;
-		return null;
 	}
 }
