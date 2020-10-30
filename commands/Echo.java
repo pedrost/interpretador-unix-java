@@ -1,9 +1,10 @@
 package commands;
 import java.io.*;
 import helpers.FileCreator;
+import helpers.FileWrite;
 
 public class Echo implements Command {
-	
+
 	public Echo() {
 	}
 
@@ -28,15 +29,18 @@ public class Echo implements Command {
         FileCreator file = new FileCreator();
 
         if(input.length() <= 0) {
-            file.createFile(output).write("");
+            file.createFile(output);
+            new FileWrite().write(output, "");
         } else {
             if(String.valueOf(input.charAt(0)).equals("$")) {
                 String environmentVar = System.getenv(input.substring(1));
                 if(environmentVar != null) {
-                    file.createFile(output).write(System.getenv(input.substring(1)));
+                    file.createFile(output);
+                    new FileWrite().write(output, System.getenv(input.substring(1)));
                 }
             } else {
-                file.createFile(output).write(input);
+                file.createFile(output);
+                new FileWrite().write(output, input);
             }
         }
     }
