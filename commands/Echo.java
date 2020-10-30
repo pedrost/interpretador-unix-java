@@ -11,7 +11,15 @@ public class Echo implements Command {
         if(string.length() <= 0) {
             System.out.println("Echo command needs a parameter");
         } else {
-            System.out.println(string);
+            if(String.valueOf(string.charAt(0)).equals("$")) {
+                // Variavel de ambiente, substring para remover o $
+                String environmentVar = System.getenv(string.substring(1));
+                if(environmentVar != null) {
+                    System.out.println(System.getenv(string.substring(1)));
+                }
+            } else {
+                System.out.println(string);
+            }
         }
 	}
 }
