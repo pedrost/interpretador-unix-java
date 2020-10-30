@@ -18,6 +18,9 @@ public class Ls implements Command {
     }
 
     public void run(String args) {
+        System.out.println(".");
+        System.out.println("..");
+        
         while(counter < filesAndDirs.length) {
             System.out.println(filesAndDirs[counter]);
             counter++;
