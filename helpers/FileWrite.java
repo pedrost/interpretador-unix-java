@@ -9,15 +9,15 @@ public class FileWrite {
 
     public FileWrite() {}
 
-    public FileWrite write(String fileName, String input) throws IOException {
+    public FileWriter write(String fileName, String input) throws IOException {
+        FileWriter writer = new FileWriter(fileName);
         try {
-            FileWriter writer = new FileWriter(fileName);
             writer.write(input);
             writer.close();
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        return null;
+        return writer;
     }
 }

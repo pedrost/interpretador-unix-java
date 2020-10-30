@@ -1,5 +1,8 @@
 package commands;
 import core.Dir;
+import helpers.FileCreator;
+import helpers.FileWrite;
+
 import java.io.*;
 import java.util.Arrays;
 
@@ -23,6 +26,11 @@ public class Ls implements Command {
 
     @Override
     public void runWithRedirectedOutput(String input, String output) throws IOException {
+        FileCreator file = new FileCreator();
+        FileWrite writer = new FileWrite();
+        file.createFile(output);
+
+        writer.write(output, Arrays.toString(filesAndDirs));
 
     }
 }
