@@ -10,7 +10,8 @@ import core.Dir;
 
 public class Main {
 
-    public static Dir dir = new Dir(System.getProperty("user.dir"));
+    public static Dir dir = new Dir(System.getenv("PWD"));
+//    public static Dir dir = new Dir(System.getPropertu("user.dir"));
     public static Echo echoCommand = new Echo();
     public static Cd cdCommand = new Cd(dir);
     public static NotFound notFoundCommand = new NotFound();
@@ -31,7 +32,20 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
+    private void splitAndRun(String command) {
+        String[] splittedCommand = command.split(" ");
+        String currentCommand = splittedCommand[0];
+        AvailableCommands searchedCommand = search(currentCommand);
+        StringBuilder commandArgs = new StringBuilder();
+
+        for(int i = 1; i <= splittedCommand.length - 1; i++) {
+            commandArgs.append(splittedCommand[i]);
+        }
+
+        searchedCommand.run(commandArgs.toString());
+    }
+
+    public void main(String[] args) {
 
         while(true){
             System.out.printf("%s> $ ", dir.getDir());
@@ -42,17 +56,15 @@ public class Main {
                 System.out.println("Bye !");
                 System.exit(1);
             }
+            if(commandInput.contains("&&")) {
+                String[] splittedFullCommand = commandInput.split("&& ");
 
-            String[] splittedCommand = commandInput.split(" ");
-            String currentCommand = splittedCommand[0];
-
-            AvailableCommands searchedCommand = search(currentCommand);
-            String commandArgs = "";
-            for(int i = 1; i <= splittedCommand.length - 1; i++) {
-                commandArgs += splittedCommand[i];
+                for(String command : splittedFullCommand) {
+                    splitAndRun(command);
+                }
+                continue;
             }
-            searchedCommand.run(commandArgs);
-
+            splitAndRun(commandInput);
         }
     }
 

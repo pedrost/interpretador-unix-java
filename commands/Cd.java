@@ -12,7 +12,7 @@ public class Cd implements Command {
 
 	public void run(String destination) {
 	
-		if (destination.equals("..")) {		
+		if (destination.equals("..")) {
 			File file = new File(dir.getDir());
 			String fileString;
 			fileString = file.getParent();
