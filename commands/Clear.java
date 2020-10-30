@@ -14,4 +14,9 @@ public class Clear implements Command {
                 System.out.flush();
         } catch (InterruptedException | IOException ignored) {}
     }
+
+    @Override
+    public void runWithRedirectedOutput(String input, String output) throws IOException {
+
+    }
 }

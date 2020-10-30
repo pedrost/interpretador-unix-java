@@ -1,5 +1,6 @@
 package commands;
 import java.io.*;
+import helpers.FileCreator;
 
 public class Echo implements Command {
 	
@@ -22,4 +23,21 @@ public class Echo implements Command {
             }
         }
 	}
+
+	public void runWithRedirectedOutput(String input, String output) throws IOException {
+        FileCreator file = new FileCreator();
+
+        if(input.length() <= 0) {
+            file.createFile(output).write("");
+        } else {
+            if(String.valueOf(input.charAt(0)).equals("$")) {
+                String environmentVar = System.getenv(input.substring(1));
+                if(environmentVar != null) {
+                    file.createFile(output).write(System.getenv(input.substring(1)));
+                }
+            } else {
+                file.createFile(output).write(input);
+            }
+        }
+    }
 }

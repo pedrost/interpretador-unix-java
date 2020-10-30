@@ -1,5 +1,6 @@
 package commands;
 
+import java.io.IOException;
 import java.util.*;
 import commands.Command;
 import commands.Echo;
@@ -16,13 +17,13 @@ public class Main {
     public static Dir dir = new Dir(System.getenv("PWD"));
 
     public static Cd cdCommand = new Cd(dir);
-    private static Clear clearCommand = new Clear();
+    private static final Clear clearCommand = new Clear();
     public static Echo echoCommand = new Echo();
     public static Ls lsCommand = new Ls(dir);
     public static NotFound notFoundCommand = new NotFound();
     
     public enum AvailableCommands {
-        cat(echoCommand),
+//        cat(echoCommand),
         cd(cdCommand),
         clear(clearCommand),
         echo(echoCommand),
@@ -37,9 +38,13 @@ public class Main {
         public void run(String args) {
             this.commandClass.run(args);
         }
+        public void runWithRedirectedOutput(String input, String output) throws IOException {
+            this.commandClass.runWithRedirectedOutput(input, output);
+        }
+
     }
 
-    private static void splitAndRun(String command) {
+    private static void splitAndRun(String command, Boolean withRunOutputRedirect, String output) throws IOException {
         String[] splittedCommand = command.split(" ");
         String currentCommand = splittedCommand[0];
         AvailableCommands searchedCommand = search(currentCommand);
@@ -49,10 +54,14 @@ public class Main {
             commandArgs.append(splittedCommand[i]);
         }
 
-        searchedCommand.run(commandArgs.toString());
+        if (withRunOutputRedirect) {
+            searchedCommand.runWithRedirectedOutput(commandArgs.toString(), output);
+        } else {
+            searchedCommand.run(commandArgs.toString());
+        }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         while(true){
             System.out.printf("%s> $ ", dir.getDir());
@@ -67,17 +76,19 @@ public class Main {
                 String[] splittedFullCommand = commandInput.split("&& ");
 
                 for(String command : splittedFullCommand) {
-                    splitAndRun(command);
+                    splitAndRun(command, false, "");
                 }
                 continue;
             }
             if(commandInput.contains(">")) {
-                // pegar 0
-                // pegar saida dele
-                // criar arquivo
-                // colocar saida no arquivo
+                String[] splittedFullCommand = commandInput.split("> ");
+                String currentCommmand = splittedFullCommand[0];
+                String outputRedirectionFileName = splittedFullCommand[1];
+                splitAndRun(currentCommmand, true, outputRedirectionFileName);
             }
-            splitAndRun(commandInput);
+            else {
+                splitAndRun(commandInput, false, "");
+            }
         }
     }
 

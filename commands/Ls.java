@@ -20,4 +20,9 @@ public class Ls implements Command {
             counter++;
         }
     }
+
+    @Override
+    public void runWithRedirectedOutput(String input, String output) throws IOException {
+
+    }
 }

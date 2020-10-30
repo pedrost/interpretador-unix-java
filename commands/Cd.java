@@ -28,4 +28,9 @@ public class Cd implements Command {
 		}
 	
 	}
+
+	@Override
+	public void runWithRedirectedOutput(String input, String output) throws IOException {
+
+	}
 }
