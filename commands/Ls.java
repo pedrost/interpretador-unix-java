@@ -8,16 +8,21 @@ import java.util.Arrays;
 
 public class Ls implements Command {
     private int counter;
+    private Dir dir;
     File location;
     String[] filesAndDirs;
 
     public Ls(Dir dir) {
         counter = 0;
+        this.dir = dir;
         location = new File(dir.getDir());
         filesAndDirs = location.list();
     }
 
     public void run(String args) {
+        counter = 0;
+        location = new File(dir.getDir());
+        filesAndDirs = location.list();
         System.out.println(".");
         System.out.println("..");
         

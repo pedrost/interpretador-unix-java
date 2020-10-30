@@ -13,8 +13,8 @@ import core.Dir;
 
 public class Main {
 
-    //    public static Dir dir = new Dir(System.getPropertu("user.dir"));
-    public static Dir dir = new Dir(System.getenv("PWD"));
+    //    public static Dir dir = new Dir(System.getProperty("user.dir"));
+    public static Dir dir = new Dir(System.getProperty("user.dir"));
 
     public static Cd cdCommand = new Cd(dir);
     private static final Clear clearCommand = new Clear();
@@ -23,7 +23,7 @@ public class Main {
     public static NotFound notFoundCommand = new NotFound();
     
     public enum AvailableCommands {
-//        cat(echoCommand),
+        // cat(echoCommand),
         cd(cdCommand),
         clear(clearCommand),
         echo(echoCommand),
