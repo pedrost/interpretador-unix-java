@@ -5,21 +5,25 @@ import commands.Command;
 import commands.Echo;
 import commands.Cd;
 import commands.NotFound;
+import commands.Ls;
 
 import core.Dir;
 
 public class Main {
 
+    //    public static Dir dir = new Dir(System.getPropertu("user.dir"));
     public static Dir dir = new Dir(System.getenv("PWD"));
-//    public static Dir dir = new Dir(System.getPropertu("user.dir"));
-    public static Echo echoCommand = new Echo();
+
     public static Cd cdCommand = new Cd(dir);
+    public static Echo echoCommand = new Echo();
+    public static Ls lsCommand = new Ls(dir);
     public static NotFound notFoundCommand = new NotFound();
     
     public enum AvailableCommands {
-        echo(echoCommand),
-        cd(cdCommand),
         cat(echoCommand),
+        cd(cdCommand),
+        echo(echoCommand),
+        ls(lsCommand),
         not_found(notFoundCommand);
 
         private final Command commandClass;
@@ -32,7 +36,7 @@ public class Main {
         }
     }
 
-    private void splitAndRun(String command) {
+    private static void splitAndRun(String command) {
         String[] splittedCommand = command.split(" ");
         String currentCommand = splittedCommand[0];
         AvailableCommands searchedCommand = search(currentCommand);
@@ -45,7 +49,7 @@ public class Main {
         searchedCommand.run(commandArgs.toString());
     }
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
 
         while(true){
             System.out.printf("%s> $ ", dir.getDir());
@@ -63,6 +67,12 @@ public class Main {
                     splitAndRun(command);
                 }
                 continue;
+            }
+            if(commandInput.contains(">")) {
+                // pegar 0
+                // pegar saida dele
+                // criar arquivo
+                // colocar saida no arquivo
             }
             splitAndRun(commandInput);
         }
