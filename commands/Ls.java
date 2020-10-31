@@ -49,4 +49,7 @@ public class Ls implements Command {
 
         writer.write(output, Arrays.toString(filesAndDirs),outputError);
     }
+
+    @Override
+    public void runWithRedirectedInput(String inputFile) { }
 }

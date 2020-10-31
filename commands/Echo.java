@@ -2,6 +2,7 @@ package commands;
 import java.io.*;
 import helpers.FileCreator;
 import helpers.FileWrite;
+import helpers.FileRead;
 
 public class Echo implements Command {
 
@@ -63,6 +64,29 @@ public class Echo implements Command {
                 file.createFile(output);
                 new FileWrite().write(output, input, outputError);
             }
+        }
+    }
+
+    public void runWithRedirectedInput(String inputRedirect) throws IOException {
+        FileRead file = new FileRead(inputRedirect);
+        String read = file.read();
+
+        if(file.exists()) {
+            if(read.length() <= 0) {
+                System.out.println("Echo command needs a parameter");
+            } else {
+                if(String.valueOf(read.charAt(0)).equals("$")) {
+                    // Variavel de ambiente, substring para remover o $
+                    String environmentVar = System.getenv(read.substring(1));
+                    if(environmentVar != null) {
+                        System.out.println(System.getenv(read.substring(1)));
+                    }
+                } else {
+                    System.out.println(read);
+                }
+            }
+        } else {
+            System.out.println("Entry point does not exists.");
         }
     }
 }

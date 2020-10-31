@@ -3,10 +3,17 @@ import java.io.File;
 
 public class FileCreator {
 
+    String filename;
+    File file;
+
     public FileCreator() {}
 
     public void createFile(String filename) {
-        File file = new File(filename);
-        file.deleteOnExit();
+        this.filename = filename;
+        this.file = new File(filename);
+    }
+
+    public Boolean exists() {
+        return this.file.exists();
     }
 }

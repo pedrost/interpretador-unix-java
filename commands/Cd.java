@@ -34,4 +34,7 @@ public class Cd implements Command {
 
 	@Override
 	public void runWithRedirectedOutputHandleError(String input, String output, String outputError) throws IOException { }
+
+	@Override
+	public void runWithRedirectedInput(String inputRedirect) { }
 }

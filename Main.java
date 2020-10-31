@@ -30,16 +30,22 @@ public class Main {
         public void run(String args) {
             this.commandClass.run(args);
         }
+
         public void runWithRedirectedOutput(String input, String output) throws IOException {
             this.commandClass.runWithRedirectedOutput(input, output);
         }
+
         public void runWithRedirectedOutputHandleError(String input, String output, String outputError) throws IOException {
             this.commandClass.runWithRedirectedOutputHandleError(input, output, outputError);
         }
 
+        public void runWithRedirectedInput(String inputRedirect) throws IOException {
+            this.commandClass.runWithRedirectedInput(inputRedirect);
+        }
+
     }
 
-    private static void splitAndRun(String command, Boolean withRunOutputRedirect, String output) throws IOException {
+    private static void splitAndRun(String command, String redirectType, String redirectFile) throws IOException {
         String[] splittedCommand = command.split(" ");
         String currentCommand = splittedCommand[0];
         AvailableCommands searchedCommand = search(currentCommand);
@@ -49,9 +55,12 @@ public class Main {
             commandArgs.append(splittedCommand[i]);
         }
 
-        if (withRunOutputRedirect) {
-            searchedCommand.runWithRedirectedOutput(commandArgs.toString(), output);
-        } else {
+        if (redirectType.equals("output")) {
+            searchedCommand.runWithRedirectedOutput(commandArgs.toString(), redirectFile);
+        } if (redirectType.equals("input")) {
+            searchedCommand.runWithRedirectedInput(redirectFile);
+        }
+        else {
             searchedCommand.run(commandArgs.toString());
         }
     }
@@ -85,7 +94,7 @@ public class Main {
                 String[] splittedFullCommand = commandInput.split("&& ");
 
                 for(String command : splittedFullCommand) {
-                    splitAndRun(command, false, "");
+                    splitAndRun(command, "", "");
                 }
                 continue;
             }
@@ -102,9 +111,19 @@ public class Main {
                     String[] splittedFullCommand = commandInput.split("> ");
                     String currentCommmand = splittedFullCommand[0];
                     String outputRedirectionFileName = splittedFullCommand[1];
-                    splitAndRun(currentCommmand, true, outputRedirectionFileName);
+                    splitAndRun(currentCommmand, "output", outputRedirectionFileName);
                 }
 
+            }
+            if(commandInput.contains("<")) {
+                String[] splittedFullCommand = commandInput.split("< ");
+                String currentCommmand = splittedFullCommand[0];
+                String inputRedirectionFileName = splittedFullCommand[1];
+                try {
+                    splitAndRun(currentCommmand, "input", inputRedirectionFileName);
+                } catch (IOException e) {
+                    System.out.println("File not found.");
+                }
             }
             if(commandInput.contains("export $MYPS1") || commandInput.contains("export $PS1")) {
                 String[] splittedFullCommand = commandInput.split(" ");
@@ -118,7 +137,7 @@ public class Main {
                 } else ps1 = dir.getDir() + " $";
             }
             else {
-                splitAndRun(commandInput, false, "");
+                splitAndRun(commandInput, "", "");
             }
         }
     }
