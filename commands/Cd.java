@@ -30,7 +30,8 @@ public class Cd implements Command {
 	}
 
 	@Override
-	public void runWithRedirectedOutput(String input, String output) throws IOException {
+	public void runWithRedirectedOutput(String input, String output) throws IOException { }
 
-	}
+	@Override
+	public void runWithRedirectedOutputHandleError(String input, String output, String outputError) throws IOException { }
 }

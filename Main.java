@@ -33,6 +33,9 @@ public class Main {
         public void runWithRedirectedOutput(String input, String output) throws IOException {
             this.commandClass.runWithRedirectedOutput(input, output);
         }
+        public void runWithRedirectedOutputHandleError(String input, String output, String outputError) throws IOException {
+            this.commandClass.runWithRedirectedOutputHandleError(input, output, outputError);
+        }
 
     }
 
@@ -51,6 +54,19 @@ public class Main {
         } else {
             searchedCommand.run(commandArgs.toString());
         }
+    }
+
+    private static void splitAndRunHandleError(String command, String output, String outputError) throws IOException {
+        String[] splittedCommand = command.split(" ");
+        String currentCommand = splittedCommand[0];
+        AvailableCommands searchedCommand = search(currentCommand);
+        StringBuilder commandArgs = new StringBuilder();
+
+        for(int i = 1; i <= splittedCommand.length - 1; i++) {
+            commandArgs.append(splittedCommand[i]);
+        }
+
+        searchedCommand.runWithRedirectedOutputHandleError(commandArgs.toString(), output, outputError);
     }
 
     public static void main(String[] args) throws IOException {
@@ -74,10 +90,21 @@ public class Main {
                 continue;
             }
             if(commandInput.contains(">")) {
-                String[] splittedFullCommand = commandInput.split("> ");
-                String currentCommmand = splittedFullCommand[0];
-                String outputRedirectionFileName = splittedFullCommand[1];
-                splitAndRun(currentCommmand, true, outputRedirectionFileName);
+                if(commandInput.contains(">>")) {
+                    String[] splittedFullCommand = commandInput.split(">> ");
+                    String[] splittedFirstCommand = splittedFullCommand[0].split("> ");
+                    String currentCommmand = splittedFirstCommand[0];
+                    String outputRedirectionFileName = splittedFirstCommand[1];
+                    String outputErrorRedirectFileName = splittedFullCommand[1];
+                    splitAndRunHandleError(currentCommmand, outputRedirectionFileName, outputErrorRedirectFileName);
+
+                } else {
+                    String[] splittedFullCommand = commandInput.split("> ");
+                    String currentCommmand = splittedFullCommand[0];
+                    String outputRedirectionFileName = splittedFullCommand[1];
+                    splitAndRun(currentCommmand, true, outputRedirectionFileName);
+                }
+
             }
             if(commandInput.contains("export $MYPS1") || commandInput.contains("export $PS1")) {
                 String[] splittedFullCommand = commandInput.split(" ");

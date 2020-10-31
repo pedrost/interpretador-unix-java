@@ -30,17 +30,38 @@ public class Echo implements Command {
 
         if(input.length() <= 0) {
             file.createFile(output);
-            new FileWrite().write(output, "");
+            new FileWrite().write(output, "", "error.txt");
         } else {
             if(String.valueOf(input.charAt(0)).equals("$")) {
                 String environmentVar = System.getenv(input.substring(1));
                 if(environmentVar != null) {
                     file.createFile(output);
-                    new FileWrite().write(output, System.getenv(input.substring(1)));
+                    new FileWrite().write(output, System.getenv(input.substring(1)), "error.txt");
                 }
             } else {
                 file.createFile(output);
-                new FileWrite().write(output, input);
+                new FileWrite().write(output, input, "error.txt");
+            }
+        }
+    }
+
+    public void runWithRedirectedOutputHandleError(String input, String output, String outputError) throws IOException {
+        FileCreator file = new FileCreator();
+
+        if(input.length() <= 0) {
+            file.createFile(output);
+            new FileWrite().write(output, "", outputError);
+            new FileWrite().write(outputError, "", outputError);
+        } else {
+            if(String.valueOf(input.charAt(0)).equals("$")) {
+                String environmentVar = System.getenv(input.substring(1));
+                if(environmentVar != null) {
+                    file.createFile(output);
+                    new FileWrite().write(output, System.getenv(input.substring(1)), outputError);
+                }
+            } else {
+                file.createFile(output);
+                new FileWrite().write(output, input, outputError);
             }
         }
     }

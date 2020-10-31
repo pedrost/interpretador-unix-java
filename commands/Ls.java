@@ -38,7 +38,15 @@ public class Ls implements Command {
         FileWrite writer = new FileWrite();
         file.createFile(output);
 
-        writer.write(output, Arrays.toString(filesAndDirs));
+        writer.write(output, Arrays.toString(filesAndDirs),"error.txt");
+    }
 
+    @Override
+    public void runWithRedirectedOutputHandleError(String input, String output, String outputError) throws IOException {
+        FileCreator file = new FileCreator();
+        FileWrite writer = new FileWrite();
+        file.createFile(output);
+
+        writer.write(output, Arrays.toString(filesAndDirs),outputError);
     }
 }

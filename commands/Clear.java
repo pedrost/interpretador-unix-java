@@ -15,8 +15,10 @@ public class Clear implements Command {
         } catch (InterruptedException | IOException ignored) {}
     }
 
-    @Override
-    public void runWithRedirectedOutput(String input, String output) throws IOException {
 
-    }
+    @Override
+    public void runWithRedirectedOutput(String input, String output) throws IOException { }
+
+    @Override
+    public void runWithRedirectedOutputHandleError(String input, String output, String outputError) throws IOException { }
 }

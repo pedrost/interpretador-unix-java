@@ -1,23 +1,20 @@
 package helpers;
-
 import java.io.IOException;
 import java.io.FileWriter;
 
 public class FileWrite {
 
-    private String fileName;
-
     public FileWrite() {}
 
-    public FileWriter write(String fileName, String input) throws IOException {
+    public void write(String fileName, String input, String errorOutput) throws IOException {
         FileWriter writer = new FileWriter(fileName);
+        FileWriter writerErrorOutput = new FileWriter(errorOutput);
+
         try {
             writer.write(input);
             writer.close();
         } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+            writerErrorOutput.write(e.toString());
         }
-        return writer;
     }
 }

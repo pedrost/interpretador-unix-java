@@ -1,11 +1,8 @@
 package commands;
-
 import java.io.IOException;
 
 public interface Command {
-	
-    public void run(String args);
-
-    public void runWithRedirectedOutput(String input, String output) throws IOException;
-
+    void run(String args);
+    void runWithRedirectedOutput(String input, String output) throws IOException;
+    void runWithRedirectedOutputHandleError(String input, String output, String outputError) throws IOException;
 }
