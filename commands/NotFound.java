@@ -1,4 +1,5 @@
 package commands;
+
 import java.io.*;
 
 public class NotFound implements Command {

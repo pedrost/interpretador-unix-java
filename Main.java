@@ -1,18 +1,10 @@
-package commands;
-
 import java.io.IOException;
 import java.util.*;
-import commands.Command;
-import commands.Echo;
-import commands.Cd;
-import commands.NotFound;
-import commands.Ls;
-import commands.Clear;
+import commands.*;
 
 import core.Dir;
 
 public class Main {
-
     //    public static Dir dir = new Dir(System.getProperty("user.dir"));
     public static Dir dir = new Dir(System.getProperty("user.dir"));
 
@@ -62,9 +54,10 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
+        String ps1 = dir.getDir() + " $";
 
         while(true){
-            System.out.printf("%s> $ ", dir.getDir());
+            System.out.printf("%s> ", ps1);
             Scanner input = new Scanner(System.in);
             String commandInput = input.nextLine();
 
@@ -85,6 +78,17 @@ public class Main {
                 String currentCommmand = splittedFullCommand[0];
                 String outputRedirectionFileName = splittedFullCommand[1];
                 splitAndRun(currentCommmand, true, outputRedirectionFileName);
+            }
+            if(commandInput.contains("export $MYPS1") || commandInput.contains("export $PS1")) {
+                String[] splittedFullCommand = commandInput.split(" ");
+                if (splittedFullCommand.length > 2) {
+                    StringBuilder newPS1 = new StringBuilder();
+                    for (int i = 2; i < splittedFullCommand.length; i++) {
+                        newPS1.append(splittedFullCommand[i]);
+                        newPS1.append(" ");
+                    }
+                    ps1 = newPS1.toString();
+                } else ps1 = dir.getDir() + " $";
             }
             else {
                 splitAndRun(commandInput, false, "");
