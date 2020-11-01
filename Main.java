@@ -3,25 +3,30 @@ import java.util.*;
 import commands.*;
 
 import core.Dir;
+import core.Prompt;
 
 public class Main {
     //    public static Dir dir = new Dir(System.getProperty("user.dir"));
     public static Dir dir = new Dir(System.getProperty("user.dir"));
+    public static Prompt prompt = new Prompt(dir.getDir() + " $");
 
     public static Cd cdCommand = new Cd(dir);
     private static final Clear clearCommand = new Clear();
     public static Echo echoCommand = new Echo();
     public static History historyCommand = new History();
     public static Ls lsCommand = new Ls(dir);
-    public static NotFound notFoundCommand = new NotFound();
+    public static Export exportCommand = new Export(prompt);
+    public static NotFound notFoundCommand = new NotFound(prompt);
+
+    public static String staticCurrentCommand = "";
     
     public enum AvailableCommands {
-        // cat(echoCommand),
         cd(cdCommand),
         clear(clearCommand),
         echo(echoCommand),
         history(historyCommand),
         ls(lsCommand),
+        export(exportCommand),
         not_found(notFoundCommand);
 
         private final Command commandClass;
@@ -100,9 +105,9 @@ public class Main {
 
     public static void main(String[] args) {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            String ps1 = dir.getDir() + " $";
 
             while(true){
+                String ps1 = prompt.getPrompt();
                 System.out.printf("%s> ", ps1);
                 Scanner input = new Scanner(System.in);
                 String commandInput = input.nextLine();
@@ -110,7 +115,9 @@ public class Main {
 
                 if(commandInput.equals("exit")) {
                     System.out.println("Bye !");
-                    Thread.currentThread().stop();
+                    //System.exit(1);
+                    Thread.currentThread().interrupt();
+                    return;
                 }
                 if(commandInput.contains("&&") || commandInput.contains("|")) {
                     String[] splittedFullCommand = new String[0];
@@ -222,6 +229,7 @@ public class Main {
                 return command;
             }
         }
+        prompt.setCurrentNotFoundCommand(input);
         return AvailableCommands.not_found;
     }
 }
