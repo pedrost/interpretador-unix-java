@@ -11,6 +11,7 @@ public class Main {
     public static Cd cdCommand = new Cd(dir);
     private static final Clear clearCommand = new Clear();
     public static Echo echoCommand = new Echo();
+    public static History historyCommand = new History();
     public static Ls lsCommand = new Ls(dir);
     public static NotFound notFoundCommand = new NotFound();
     
@@ -19,6 +20,7 @@ public class Main {
         cd(cdCommand),
         clear(clearCommand),
         echo(echoCommand),
+        history(historyCommand),
         ls(lsCommand),
         not_found(notFoundCommand);
 
@@ -104,6 +106,7 @@ public class Main {
                 System.out.printf("%s> ", ps1);
                 Scanner input = new Scanner(System.in);
                 String commandInput = input.nextLine();
+                historyCommand.pushItem(commandInput);
 
                 if(commandInput.equals("exit")) {
                     System.out.println("Bye !");
