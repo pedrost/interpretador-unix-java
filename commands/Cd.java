@@ -37,4 +37,7 @@ public class Cd implements Command {
 
 	@Override
 	public void runWithRedirectedInput(String inputRedirect) { }
+
+	@Override
+	public void runWithInputAndOutputRedirect(String commands, String input, String output) { }
 }

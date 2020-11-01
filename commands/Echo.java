@@ -89,4 +89,32 @@ public class Echo implements Command {
             System.out.println("Entry point does not exists.");
         }
     }
+
+    @Override
+    public void runWithInputAndOutputRedirect(String commands, String input, String output) throws IOException {
+        FileCreator fileCreated = new FileCreator();
+        FileRead file = new FileRead(input);
+        String read = file.read();
+
+        if(file.exists()) {
+            if(read.length() <= 0) {
+                fileCreated.createFile(output);
+                new FileWrite().write(output, "", "error.txt");
+            } else {
+                if(String.valueOf(read.charAt(0)).equals("$")) {
+                    // Variavel de ambiente, substring para remover o $
+                    String environmentVar = System.getenv(read.substring(1));
+                    if(environmentVar != null) {
+                        fileCreated.createFile(output);
+                        new FileWrite().write(output, System.getenv(read.substring(1)), "error.txt");
+                    }
+                } else {
+                    new FileWrite().write(output, read, "error.txt");
+                }
+            }
+        } else {
+            new FileWrite().write(output, "Entry point does not exists.", "error.txt");
+
+        }
+    }
 }

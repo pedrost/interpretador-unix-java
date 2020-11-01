@@ -14,8 +14,14 @@ public class NotFound implements Command {
 
 
 	@Override
-	public void runWithRedirectedOutput(String input, String output) throws IOException { }
+	public void runWithRedirectedOutput(String input, String output) { }
 
 	@Override
-	public void runWithRedirectedOutputHandleError(String input, String output, String outputError) throws IOException { }
+	public void runWithRedirectedOutputHandleError(String input, String output, String outputError) { }
+
+	@Override
+	public void runWithRedirectedInput(String inputFile) { }
+
+	@Override
+	public void runWithInputAndOutputRedirect(String commands, String input, String output) { }
 }

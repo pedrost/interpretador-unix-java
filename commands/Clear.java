@@ -24,4 +24,7 @@ public class Clear implements Command {
     @Override
     public void runWithRedirectedInput(String inputRedirect) { }
 
+    @Override
+    public void runWithInputAndOutputRedirect(String commands, String input, String output) { }
+
 }

@@ -52,4 +52,8 @@ public class Ls implements Command {
 
     @Override
     public void runWithRedirectedInput(String inputFile) { }
+
+    @Override
+    public void runWithInputAndOutputRedirect(String commands, String input, String output) { }
+
 }
