@@ -96,100 +96,121 @@ public class Main {
     }
 
 
-    public static void main(String[] args) throws IOException {
-        String ps1 = dir.getDir() + " $";
+    public static void main(String[] args) {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            String ps1 = dir.getDir() + " $";
 
-        while(true){
-            System.out.printf("%s> ", ps1);
-            Scanner input = new Scanner(System.in);
-            String commandInput = input.nextLine();
+            while(true){
+                System.out.printf("%s> ", ps1);
+                Scanner input = new Scanner(System.in);
+                String commandInput = input.nextLine();
 
-            if(commandInput.equals("exit")) {
-                System.out.println("Bye !");
-                System.exit(1);
-            }
-            if(commandInput.contains("&&") || commandInput.contains("|")) {
-                String[] splittedFullCommand = new String[0];
-
-                if (commandInput.contains("&&")) splittedFullCommand = commandInput.split("&& ");
-                if (commandInput.contains("|")) splittedFullCommand = commandInput.split("| ");
-
-                for(String command : splittedFullCommand) {
-                    splitAndRun(command, "", "");
+                if(commandInput.equals("exit")) {
+                    System.out.println("Bye !");
+                    Thread.currentThread().stop();
                 }
-                continue;
-            }
-            if(commandInput.contains(">")) {
-                if(commandInput.contains(">>")) {
-                    String[] splittedFullCommand = commandInput.split("2> ");
-                    String[] splittedFirstCommand = splittedFullCommand[0].split("> ");
-                    String currentCommmand = splittedFirstCommand[0];
-                    String outputRedirectionFileName = splittedFirstCommand[1];
-                    String outputErrorRedirectFileName = splittedFullCommand[1];
-                    splitAndRunHandleError(currentCommmand, outputRedirectionFileName, outputErrorRedirectFileName);
+                if(commandInput.contains("&&") || commandInput.contains("|")) {
+                    String[] splittedFullCommand = new String[0];
 
-                } else {
-                    String[] splittedFullCommand = commandInput.split("> ");
-                    String currentCommmand = splittedFullCommand[0];
-                    String outputRedirectionFileName = splittedFullCommand[1];
-                    splitAndRun(currentCommmand, "output", outputRedirectionFileName);
-                }
+                    if (commandInput.contains("&&")) splittedFullCommand = commandInput.split("&& ");
+                    if (commandInput.contains("|")) splittedFullCommand = commandInput.split("| ");
 
-            }
-            if(commandInput.contains("<")) {
-                String[] splittedFullCommand = commandInput.split("< ");
-                String currentCommmand = splittedFullCommand[0];
-                String inputRedirectionFileName = splittedFullCommand[1];
-                try {
-                    splitAndRun(currentCommmand, "input", inputRedirectionFileName);
-                } catch (IOException e) {
-                    System.out.println("File not found.");
-                }
-            }
-
-            if(commandInput.contains("<") && commandInput.contains(">")) {
-                String[] splittedFullCommand = commandInput.split("< ");
-                String currentCommmand;
-                String outputRedirectionFileName = "";
-                String inputRedirectionFileName = "";
-                String[] splittedOut;
-
-                System.out.println("full command -> " + Arrays.toString(splittedFullCommand));
-
-                if(splittedFullCommand[0].contains(">")) {
-                    splittedOut = splittedFullCommand[0].split("> ");
-                    currentCommmand = splittedOut[0];
-                    outputRedirectionFileName = splittedOut[1];
-                    inputRedirectionFileName = splittedFullCommand[1];
-                } else {
-                    splittedOut = splittedFullCommand[1].split("> ");
-                    currentCommmand = splittedFullCommand[0];
-                    inputRedirectionFileName = splittedOut[0];
-                    outputRedirectionFileName = splittedOut[1];
-                }
-
-                try {
-                    splitAndRunWithInputAndOutputRedirect(currentCommmand, inputRedirectionFileName, outputRedirectionFileName);
-                } catch (IOException e) {
-                    System.out.println("File not found.");
-                }
-
-            }
-            if(commandInput.contains("export $MYPS1") || commandInput.contains("export $PS1")) {
-                String[] splittedFullCommand = commandInput.split(" ");
-                if (splittedFullCommand.length > 2) {
-                    StringBuilder newPS1 = new StringBuilder();
-                    for (int i = 2; i < splittedFullCommand.length; i++) {
-                        newPS1.append(splittedFullCommand[i]);
-                        newPS1.append(" ");
+                    for(String command : splittedFullCommand) {
+                        try {
+                            splitAndRun(command, "", "");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
-                    ps1 = newPS1.toString();
-                } else ps1 = dir.getDir() + " $";
+                    continue;
+                }
+                if(commandInput.contains(">")) {
+                    if(commandInput.contains(">>")) {
+                        String[] splittedFullCommand = commandInput.split("2> ");
+                        String[] splittedFirstCommand = splittedFullCommand[0].split("> ");
+                        String currentCommmand = splittedFirstCommand[0];
+                        String outputRedirectionFileName = splittedFirstCommand[1];
+                        String outputErrorRedirectFileName = splittedFullCommand[1];
+                        try {
+                            splitAndRunHandleError(currentCommmand, outputRedirectionFileName, outputErrorRedirectFileName);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    } else {
+                        String[] splittedFullCommand = commandInput.split("> ");
+                        String currentCommmand = splittedFullCommand[0];
+                        String outputRedirectionFileName = splittedFullCommand[1];
+                        try {
+                            splitAndRun(currentCommmand, "output", outputRedirectionFileName);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                if(commandInput.contains("<")) {
+                    String[] splittedFullCommand = commandInput.split("< ");
+                    String currentCommmand = splittedFullCommand[0];
+                    String inputRedirectionFileName = splittedFullCommand[1];
+                    try {
+                        splitAndRun(currentCommmand, "input", inputRedirectionFileName);
+                    } catch (IOException e) {
+                        System.out.println("File not found.");
+                    }
+                }
+
+                if(commandInput.contains("<") && commandInput.contains(">")) {
+                    String[] splittedFullCommand = commandInput.split("< ");
+                    String currentCommmand;
+                    String outputRedirectionFileName = "";
+                    String inputRedirectionFileName = "";
+                    String[] splittedOut;
+
+                    System.out.println("full command -> " + Arrays.toString(splittedFullCommand));
+
+                    if(splittedFullCommand[0].contains(">")) {
+                        splittedOut = splittedFullCommand[0].split("> ");
+                        currentCommmand = splittedOut[0];
+                        outputRedirectionFileName = splittedOut[1];
+                        inputRedirectionFileName = splittedFullCommand[1];
+                    } else {
+                        splittedOut = splittedFullCommand[1].split("> ");
+                        currentCommmand = splittedFullCommand[0];
+                        inputRedirectionFileName = splittedOut[0];
+                        outputRedirectionFileName = splittedOut[1];
+                    }
+
+                    try {
+                        splitAndRunWithInputAndOutputRedirect(currentCommmand, inputRedirectionFileName, outputRedirectionFileName);
+                    } catch (IOException e) {
+                        System.out.println("File not found.");
+                    }
+
+                }
+                if(commandInput.contains("export $MYPS1") || commandInput.contains("export $PS1")) {
+                    String[] splittedFullCommand = commandInput.split(" ");
+                    if (splittedFullCommand.length > 2) {
+                        StringBuilder newPS1 = new StringBuilder();
+                        for (int i = 2; i < splittedFullCommand.length; i++) {
+                            newPS1.append(splittedFullCommand[i]);
+                            newPS1.append(" ");
+                        }
+                        ps1 = newPS1.toString();
+                    } else ps1 = dir.getDir() + " $";
+                }
+                if(commandInput.contains("^C")) {
+                    System.out.println("controul C");
+                }
+                else {
+                    try {
+                        splitAndRun(commandInput, "", "");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-            else {
-                splitAndRun(commandInput, "", "");
-            }
-        }
+        }));
     }
 
     public static AvailableCommands search(String input) {
