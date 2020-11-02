@@ -6,7 +6,7 @@ import java.lang.reflect.Field;
 import core.Prompt;
 
 public class Export implements Command {
-    Prompt prompt;
+    private Prompt prompt;
 
 	public Export(Prompt prompt) {
         this.prompt = prompt;
@@ -21,6 +21,9 @@ public class Export implements Command {
             String val = splitedExport[1];
             if(key.equals("MYPS1")) {
                 prompt.setPrompt(val);
+            }
+            if(key.equals("PATH")) {
+                prompt.setcurrentPathEnvironmentVariable(val);
             }
         } else {
             System.out.printf("%s invalid number of arguments \n");

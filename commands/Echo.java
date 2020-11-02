@@ -3,10 +3,12 @@ import java.io.*;
 import helpers.FileCreator;
 import helpers.FileWrite;
 import helpers.FileRead;
+import core.Prompt;
 
 public class Echo implements Command {
-
-	public Echo() {
+    private Prompt prompt;
+	public Echo(Prompt prompt) {
+        this.prompt = prompt;
 	}
 
     @Override
@@ -16,7 +18,12 @@ public class Echo implements Command {
         } else {
             if(String.valueOf(string.charAt(0)).equals("$")) {
                 // Variavel de ambiente, substring para remover o $
-                String environmentVar = System.getenv(string.substring(1));
+                String searchedVar = string.substring(1);
+                if(searchedVar.equals("PATH")) {
+                    System.out.println(this.prompt.getCurrentPathEnvironmentVariable());
+                    return;
+                }
+                String environmentVar = System.getenv(searchedVar);
                 if(environmentVar != null) {
                     System.out.println(System.getenv(string.substring(1)));
                 }

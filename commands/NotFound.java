@@ -13,7 +13,7 @@ public class NotFound implements Command {
     @Override
 	public void run(String command) {
 		if(System.getProperty("os.name").startsWith("Windows")) {
-			String[] foldersToLookUp = System.getenv("PATH").split(";");
+			String[] foldersToLookUp = this.prompt.getCurrentPathEnvironmentVariable().split(";");
 			for(int i = 0; i<= foldersToLookUp.length - 1; i++) {
 				// This will look something like c:/usr/bin/ls
 				String searchedFilePath = foldersToLookUp[i] + "/" + prompt.getCurrentNotFoundCommand();
@@ -40,7 +40,7 @@ public class NotFound implements Command {
 				}
 			}
 		} else {
-			String[] foldersToLookUp = System.getenv("PATH").split(":");
+			String[] foldersToLookUp = this.prompt.getCurrentPathEnvironmentVariable().split(":");
 			for(int i = 0; i<= foldersToLookUp.length - 1; i++) {
 				// This will look something like c:/usr/bin/ls
 				String searchedFilePath = foldersToLookUp[i] + "/" + prompt.getCurrentNotFoundCommand();

@@ -3,22 +3,32 @@ import java.io.*;
 
 public class Prompt {
 	private String currentPrompt;
-    private String currentNotFoundCommand;
+  private String currentNotFoundCommand;
+	private String currentPathEnvironmentVariable;
 	
-	public Prompt(String currentPrompt) {
+	public Prompt(String currentPrompt, String pathEnvironmentVariable) {
 		this.currentPrompt = currentPrompt;
-        this.currentNotFoundCommand = "";
+    this.currentNotFoundCommand = "";
+		this.currentPathEnvironmentVariable = pathEnvironmentVariable;
 	}
 
 	public void setPrompt(String prompt) {
 		currentPrompt = prompt;
 	}
 
-    public void setCurrentNotFoundCommand(String command) {
+	public void setcurrentPathEnvironmentVariable(String var) {
+		currentPathEnvironmentVariable = var;
+	}
+
+  public void setCurrentNotFoundCommand(String command) {
 		currentNotFoundCommand = command;
 	}
 
-    public String getCurrentNotFoundCommand() {
+	public String getCurrentPathEnvironmentVariable() {
+		return this.currentPathEnvironmentVariable;
+	}
+
+  public String getCurrentNotFoundCommand() {
 		return this.currentNotFoundCommand;
 	}
 

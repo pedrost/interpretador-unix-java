@@ -6,13 +6,12 @@ import core.Dir;
 import core.Prompt;
 
 public class Main {
-    //    public static Dir dir = new Dir(System.getProperty("user.dir"));
     public static Dir dir = new Dir(System.getProperty("user.dir"));
-    public static Prompt prompt = new Prompt(dir.getDir() + " $");
+    public static Prompt prompt = new Prompt(dir.getDir() + " $", System.getenv("PATH"));
 
     public static Cd cdCommand = new Cd(dir);
     private static final Clear clearCommand = new Clear();
-    public static Echo echoCommand = new Echo();
+    public static Echo echoCommand = new Echo(prompt);
     public static History historyCommand = new History();
     public static Ls lsCommand = new Ls(dir);
     public static Export exportCommand = new Export(prompt);
