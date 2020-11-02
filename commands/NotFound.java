@@ -19,9 +19,24 @@ public class NotFound implements Command {
 				String searchedFilePath = foldersToLookUp[i] + "/" + prompt.getCurrentNotFoundCommand();
 				File searchedFile = new File(searchedFilePath);
 				if(searchedFile.exists()) {
-					System.out.println(searchedFilePath);
-					//Runtime rt = Runtime.getRuntime();
-					//Process ps = rt.exec("path to my executable.exe");
+					Runtime rt = Runtime.getRuntime();
+					try {
+						Process ps = rt.exec(searchedFilePath);
+						BufferedReader stdInput = new BufferedReader(new InputStreamReader(ps.getInputStream()));
+						BufferedReader stdError = new BufferedReader(new InputStreamReader(ps.getErrorStream()));
+
+						String s = null;
+						while ((s = stdInput.readLine()) != null) {
+							System.out.println(s);
+						}
+						while ((s = stdError.readLine()) != null) {
+							System.out.println(s);
+						}
+
+					} catch(Exception ex) {
+						System.out.printf("failed to execute command %s\n", prompt.getCurrentNotFoundCommand());
+					}
+					return;
 				}
 			}
 		} else {
@@ -31,9 +46,23 @@ public class NotFound implements Command {
 				String searchedFilePath = foldersToLookUp[i] + "/" + prompt.getCurrentNotFoundCommand();
 				File searchedFile = new File(searchedFilePath);
 				if(searchedFile.exists()) {
-					System.out.println(searchedFilePath);
-					//Runtime rt = Runtime.getRuntime();
-					//Process ps = rt.exec("path to my executable.exe");
+					Runtime rt = Runtime.getRuntime();
+					try {
+						Process ps = rt.exec(searchedFilePath);
+						BufferedReader stdInput = new BufferedReader(new InputStreamReader(ps.getInputStream()));
+						BufferedReader stdError = new BufferedReader(new InputStreamReader(ps.getErrorStream()));
+
+						String s = null;
+						while ((s = stdInput.readLine()) != null) {
+							System.out.println(s);
+						}
+						while ((s = stdError.readLine()) != null) {
+							System.out.println(s);
+						}
+					} catch(Exception ex) {
+						System.out.printf("failed to execute command %s\n", prompt.getCurrentNotFoundCommand());
+					}
+					return;
 				}
 			}
 		}
