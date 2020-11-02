@@ -23,6 +23,10 @@ public class Echo implements Command {
                     System.out.println(this.prompt.getCurrentPathEnvironmentVariable());
                     return;
                 }
+                if(searchedVar.equals("MYPS1")) {
+                    System.out.println(this.prompt.getPrompt());
+                    return;
+                }
                 String environmentVar = System.getenv(searchedVar);
                 if(environmentVar != null) {
                     System.out.println(System.getenv(string.substring(1)));
