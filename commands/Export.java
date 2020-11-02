@@ -13,8 +13,7 @@ public class Export implements Command {
 	}
 
     @Override
-	public void run(String command) {
-        // This will look something like ["MYPS1", "pedro"];
+	public void run(String command, Boolean isBackground) {
         String[] splitedExport = command.split("=");
         if(splitedExport.length >= 2) {
             String key = splitedExport[0];
@@ -26,21 +25,23 @@ public class Export implements Command {
                 prompt.setcurrentPathEnvironmentVariable(val);
             }
         } else {
-            System.out.printf("%s invalid number of arguments \n");
+            if(!isBackground) {
+                System.out.printf("%s invalid number of arguments \n");
+            }
         }
 	}
 
 
 	@Override
-	public void runWithRedirectedOutput(String input, String output) { }
+	public void runWithRedirectedOutput(String input, String output, Boolean isBackground) { }
 
 	@Override
-	public void runWithRedirectedOutputHandleError(String input, String output, String outputError) { }
+	public void runWithRedirectedOutputHandleError(String input, String output, String outputError, Boolean isBackground) { }
 
 	@Override
-	public void runWithRedirectedInput(String inputFile) { }
+	public void runWithRedirectedInput(String inputFile, Boolean isBackground) { }
 
 	@Override
-	public void runWithInputAndOutputRedirect(String commands, String input, String output) { }
+	public void runWithInputAndOutputRedirect(String commands, String input, String output, Boolean isBackground) { }
 
 }

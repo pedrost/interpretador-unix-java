@@ -12,7 +12,7 @@ public class Echo implements Command {
 	}
 
     @Override
-	public void run(String string) {
+	public void run(String string, Boolean isBackground) {
         if(string.length() <= 0) {
             System.out.println("Echo command needs a parameter");
         } else {
@@ -20,24 +20,32 @@ public class Echo implements Command {
                 // Variavel de ambiente, substring para remover o $
                 String searchedVar = string.substring(1);
                 if(searchedVar.equals("PATH")) {
-                    System.out.println(this.prompt.getCurrentPathEnvironmentVariable());
+                    if(!isBackground) {
+                        System.out.println(this.prompt.getCurrentPathEnvironmentVariable());
+                    }
                     return;
                 }
                 if(searchedVar.equals("MYPS1")) {
-                    System.out.println(this.prompt.getPrompt());
+                    if(!isBackground) {
+                        System.out.println(this.prompt.getPrompt());
+                    }
                     return;
                 }
                 String environmentVar = System.getenv(searchedVar);
                 if(environmentVar != null) {
-                    System.out.println(System.getenv(string.substring(1)));
+                    if(!isBackground) {
+                        System.out.println(System.getenv(string.substring(1)));
+                    }
                 }
             } else {
-                System.out.println(string);
+                if(!isBackground) {
+                    System.out.println(string);
+                }
             }
         }
 	}
 
-	public void runWithRedirectedOutput(String input, String output) throws IOException {
+	public void runWithRedirectedOutput(String input, String output, Boolean isBackground) throws IOException {
         FileCreator file = new FileCreator();
 
         if(input.length() <= 0) {
@@ -57,7 +65,7 @@ public class Echo implements Command {
         }
     }
 
-    public void runWithRedirectedOutputHandleError(String input, String output, String outputError) throws IOException {
+    public void runWithRedirectedOutputHandleError(String input, String output, String outputError, Boolean isBackground) throws IOException {
         FileCreator file = new FileCreator();
 
         if(input.length() <= 0) {
@@ -78,7 +86,7 @@ public class Echo implements Command {
         }
     }
 
-    public void runWithRedirectedInput(String inputRedirect) throws IOException {
+    public void runWithRedirectedInput(String inputRedirect, Boolean isBackground) throws IOException {
         FileRead file = new FileRead(inputRedirect);
         String read = file.read();
 
@@ -87,7 +95,6 @@ public class Echo implements Command {
                 System.out.println("Echo command needs a parameter");
             } else {
                 if(String.valueOf(read.charAt(0)).equals("$")) {
-                    // Variavel de ambiente, substring para remover o $
                     String environmentVar = System.getenv(read.substring(1));
                     if(environmentVar != null) {
                         System.out.println(System.getenv(read.substring(1)));
@@ -102,7 +109,7 @@ public class Echo implements Command {
     }
 
     @Override
-    public void runWithInputAndOutputRedirect(String commands, String input, String output) throws IOException {
+    public void runWithInputAndOutputRedirect(String commands, String input, String output, Boolean isBackground) throws IOException {
         FileCreator fileCreated = new FileCreator();
         FileRead file = new FileRead(input);
         String read = file.read();

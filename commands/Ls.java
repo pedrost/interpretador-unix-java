@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 public class Ls implements Command {
     private int counter;
-    private Dir dir;
+    private final Dir dir;
     File location;
     String[] filesAndDirs;
 
@@ -19,21 +19,25 @@ public class Ls implements Command {
         filesAndDirs = location.list();
     }
 
-    public void run(String args) {
+    public void run(String args, Boolean isBackground) {
         counter = 0;
         location = new File(dir.getDir());
         filesAndDirs = location.list();
-        System.out.println(".");
-        System.out.println("..");
-        
-        while(counter < filesAndDirs.length) {
-            System.out.println(filesAndDirs[counter]);
-            counter++;
+
+        if(!isBackground) {
+            System.out.println("ASOIDJAOSIJDAOSIDJ");
+            System.out.println(".");
+            System.out.println("..");
+
+            while(counter < filesAndDirs.length) {
+                System.out.println(filesAndDirs[counter]);
+                counter++;
+            }
         }
     }
 
     @Override
-    public void runWithRedirectedOutput(String input, String output) throws IOException {
+    public void runWithRedirectedOutput(String input, String output, Boolean isBackground) throws IOException {
         FileCreator file = new FileCreator();
         FileWrite writer = new FileWrite();
         file.createFile(output);
@@ -42,7 +46,7 @@ public class Ls implements Command {
     }
 
     @Override
-    public void runWithRedirectedOutputHandleError(String input, String output, String outputError) throws IOException {
+    public void runWithRedirectedOutputHandleError(String input, String output, String outputError, Boolean isBackground) throws IOException {
         FileCreator file = new FileCreator();
         FileWrite writer = new FileWrite();
         file.createFile(output);
@@ -51,9 +55,9 @@ public class Ls implements Command {
     }
 
     @Override
-    public void runWithRedirectedInput(String inputFile) { }
+    public void runWithRedirectedInput(String inputFile, Boolean isBackground) { }
 
     @Override
-    public void runWithInputAndOutputRedirect(String commands, String input, String output) { }
+    public void runWithInputAndOutputRedirect(String commands, String input, String output, Boolean isBackground) { }
 
 }

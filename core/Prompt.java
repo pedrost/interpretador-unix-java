@@ -1,38 +1,39 @@
 package core;
+
 import java.io.*;
 
 public class Prompt {
-	private String currentPrompt;
-  private String currentNotFoundCommand;
-	private String currentPathEnvironmentVariable;
-	
-	public Prompt(String currentPrompt, String pathEnvironmentVariable) {
-		this.currentPrompt = currentPrompt;
-    this.currentNotFoundCommand = "";
-		this.currentPathEnvironmentVariable = pathEnvironmentVariable;
-	}
+    private String currentPrompt;
+    private String currentNotFoundCommand;
+    private String currentPathEnvironmentVariable;
 
-	public void setPrompt(String prompt) {
-		currentPrompt = prompt;
-	}
+    public Prompt(String currentPrompt, String pathEnvironmentVariable) {
+        this.currentPrompt = currentPrompt;
+        this.currentNotFoundCommand = "";
+        this.currentPathEnvironmentVariable = pathEnvironmentVariable;
+    }
 
-	public void setcurrentPathEnvironmentVariable(String var) {
-		currentPathEnvironmentVariable = var;
-	}
+    public void setPrompt(String prompt) {
+        currentPrompt = prompt;
+    }
 
-  public void setCurrentNotFoundCommand(String command) {
-		currentNotFoundCommand = command;
-	}
+    public void setcurrentPathEnvironmentVariable(String var) {
+        currentPathEnvironmentVariable = var;
+    }
 
-	public String getCurrentPathEnvironmentVariable() {
-		return this.currentPathEnvironmentVariable;
-	}
+    public void setCurrentNotFoundCommand(String command) {
+        currentNotFoundCommand = command;
+    }
 
-  public String getCurrentNotFoundCommand() {
-		return this.currentNotFoundCommand;
-	}
+    public String getCurrentPathEnvironmentVariable() {
+        return this.currentPathEnvironmentVariable;
+    }
 
-	public String getPrompt() {
-		return this.currentPrompt;
-	}
+    public String getCurrentNotFoundCommand() {
+        return this.currentNotFoundCommand;
+    }
+
+    public String getPrompt() {
+        return this.currentPrompt;
+    }
 }

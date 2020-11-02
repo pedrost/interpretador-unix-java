@@ -5,7 +5,7 @@ import java.lang.ProcessBuilder;
 public class Clear implements Command {
     public Clear() { }
 
-    public void run(String args){
+    public void run(String args, Boolean isBackground){
         try {
             if (System.getProperty("os.name").contains("Windows"))
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
@@ -16,15 +16,15 @@ public class Clear implements Command {
     }
 
     @Override
-    public void runWithRedirectedOutput(String input, String output) throws IOException { }
+    public void runWithRedirectedOutput(String input, String output, Boolean isBackground) throws IOException { }
 
     @Override
-    public void runWithRedirectedOutputHandleError(String input, String output, String outputError) throws IOException { }
+    public void runWithRedirectedOutputHandleError(String input, String output, String outputError, Boolean isBackground) throws IOException { }
 
     @Override
-    public void runWithRedirectedInput(String inputRedirect) { }
+    public void runWithRedirectedInput(String inputRedirect, Boolean isBackground) { }
 
     @Override
-    public void runWithInputAndOutputRedirect(String commands, String input, String output) { }
+    public void runWithInputAndOutputRedirect(String commands, String input, String output, Boolean isBackground) { }
 
 }

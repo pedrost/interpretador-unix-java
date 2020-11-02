@@ -2,9 +2,9 @@ package commands;
 import java.io.IOException;
 
 public interface Command {
-    void run(String args);
-    void runWithRedirectedOutput(String input, String output) throws IOException;
-    void runWithRedirectedOutputHandleError(String input, String output, String outputError) throws IOException;
-    void runWithRedirectedInput(String inputRedirect) throws IOException;
-    void runWithInputAndOutputRedirect(String command, String input,String output) throws IOException;
+    void run(String args, Boolean isBackground);
+    void runWithRedirectedOutput(String input, String output, Boolean isBackground) throws IOException;
+    void runWithRedirectedOutputHandleError(String input, String output, String outputError, Boolean isBackground) throws IOException;
+    void runWithRedirectedInput(String inputRedirect, Boolean isBackground) throws IOException;
+    void runWithInputAndOutputRedirect(String command, String input,String output, Boolean isBackground) throws IOException;
 }

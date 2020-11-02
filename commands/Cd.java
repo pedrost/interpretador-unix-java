@@ -10,7 +10,7 @@ public class Cd implements Command {
         this.dir = dir;
 	}
 
-	public void run(String destination) {
+	public void run(String destination, Boolean isBackground) {
 	
 		if (destination.equals("..")) {
 			File file = new File(dir.getDir());
@@ -30,14 +30,14 @@ public class Cd implements Command {
 	}
 
 	@Override
-	public void runWithRedirectedOutput(String input, String output) throws IOException { }
+	public void runWithRedirectedOutput(String input, String output, Boolean isBackground) throws IOException { }
 
 	@Override
-	public void runWithRedirectedOutputHandleError(String input, String output, String outputError) throws IOException { }
+	public void runWithRedirectedOutputHandleError(String input, String output, String outputError, Boolean isBackground) throws IOException { }
 
 	@Override
-	public void runWithRedirectedInput(String inputRedirect) { }
+	public void runWithRedirectedInput(String inputRedirect, Boolean isBackground) { }
 
 	@Override
-	public void runWithInputAndOutputRedirect(String commands, String input, String output) { }
+	public void runWithInputAndOutputRedirect(String commands, String input, String output, Boolean isBackground) { }
 }

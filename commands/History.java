@@ -18,12 +18,14 @@ public class History implements Command {
     }
 
     @Override
-    public void run(String args) {
-        this.history.forEach(command -> System.out.println(this.history.indexOf(command)+1 + " " + command));
+    public void run(String args, Boolean isBackground) {
+        if (!isBackground) {
+            this.history.forEach(command -> System.out.println(this.history.indexOf(command)+1 + " " + command));
+        }
     }
 
     @Override
-    public void runWithRedirectedOutput(String input, String output) throws IOException {
+    public void runWithRedirectedOutput(String input, String output, Boolean isBackground) throws IOException {
         FileCreator file = new FileCreator();
         FileWrite writer = new FileWrite();
         file.createFile(output);
@@ -32,7 +34,7 @@ public class History implements Command {
     }
 
     @Override
-    public void runWithRedirectedOutputHandleError(String input, String output, String outputError) throws IOException {
+    public void runWithRedirectedOutputHandleError(String input, String output, String outputError, Boolean isBackground) throws IOException {
         FileCreator file = new FileCreator();
         FileWrite writer = new FileWrite();
         file.createFile(output);
@@ -41,8 +43,8 @@ public class History implements Command {
     }
 
     @Override
-    public void runWithRedirectedInput(String inputRedirect) { }
+    public void runWithRedirectedInput(String inputRedirect, Boolean isBackground) { }
 
     @Override
-    public void runWithInputAndOutputRedirect(String command, String input, String output) { }
+    public void runWithInputAndOutputRedirect(String command, String input, String output, Boolean isBackground) { }
 }
